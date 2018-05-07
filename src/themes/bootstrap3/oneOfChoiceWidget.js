@@ -15,15 +15,16 @@ class OneOfChoiceWidget extends Component {
         };
         this.renderOption = this.renderOption.bind(this);
         this.selectItem = this.selectItem.bind(this);
+        this.selectIndex = this.selectIndex.bind(this);
     }
 
     componentDidMount() {
         const {fieldName, prefix, state, schema, context} = this.props;
         const selector = formValueSelector(context.formName);
-        const val = selector(state, prefix + fieldName);
+        const val = selector(state, fieldName ? prefix + fieldName + ".@type" : prefix + "@type");
         if (val) {
-            const index = schema.oneOf.findIndex(o => o.properties[fieldName].default === val[fieldName]);
-            this.setState({choice: index});
+            const index = schema.oneOf.findIndex(o => o.properties["@type"].default === val);
+            this.selectIndex(index);
         }
     }
 
@@ -86,15 +87,26 @@ class OneOfChoiceWidget extends Component {
     }
 
     selectItem(e) {
-        //FIXME
-        const {schema, context, dispatch, prefix} = this.props;
-        for (let property in schema.oneOf[this.state.choice].properties) {
+        this.selectIndex(e.target.value);
+    }
+
+    selectIndex(index) {
+        const {schema, context, dispatch, prefix, state} = this.props;
+        const currentProps = schema.oneOf[this.state.choice].properties;
+        const nextProps = schema.oneOf[index].properties;
+        for (let property in currentProps) {
             if (property === "@type") {
-                dispatch(change(context.formName, prefix + property, schema.oneOf[e.target.value].properties["@type"]["default"]));
-            } else
+                dispatch(change(context.formName, prefix + property, nextProps["@type"]["default"]));
+            } else if (property in nextProps) {
+                const selector = formValueSelector(context.formName);
+                const val = selector(state, prefix + property);
+                if (val === currentProps[property].default && nextProps[property].default)
+                    dispatch(change(context.formName, prefix + property, nextProps[property].default));
+            } else if (!property in nextProps) {
                 dispatch(change(context.formName, prefix + property, null));
+            }
         }
-        this.setState({choice: e.target.value});
+        this.setState({choice: index});
     }
 }
 
