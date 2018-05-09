@@ -32,7 +32,7 @@ class RenderInput extends React.Component {
                             <input
                                 {...this.props.input}
                                 type="checkbox"
-                                required={this.props.required}
+                                //required={this.props.required}
                                 id={this.props.id}
                                 checked={this.props.input.value}
                             />
