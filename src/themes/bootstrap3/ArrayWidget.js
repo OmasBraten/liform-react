@@ -15,60 +15,62 @@ const renderArrayFields = (count,
                            context,
                            swap) => {
     const prefix = fieldName + ".";
+
     if (count) {
         return _times(count, idx => {
             return (
-                <div key={idx}>
-                    <div className="btn-group pull-right ">
-                        {idx !== count - 1 && count > 1 && !readOnly ? (
-                            <button
-                                className="btn btn-primary"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    swap(idx, idx + 1);
-                                }}
-                            >
-                                <span className="glyphicon glyphicon-arrow-down"/>
-                            </button>
-                        ) : (
-                            ""
-                        )}
-                        {idx !== 0 && count > 1 && !readOnly ? (
-                            <button
-                                className="btn btn-primary"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    swap(idx, idx - 1);
-                                }}
-                            >
-                                <span className="glyphicon glyphicon-arrow-up"/>
-                            </button>
-                        ) : (
-                            ""
-                        )}
-                        {!readOnly && (schema.minItems ? count > schema.minItems : true) && (
-                            <button
-                                className="btn btn-danger"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    remove(idx);
-                                }}
-                            >
-                                <span className="glyphicon glyphicon-trash"/>
-                            </button>
+                <div className="panel panel-default" key={idx}>
+                    {!readOnly && (
+                        <div className="panel-heading">
+                            <div className="btn-group">
+                                {idx !== count - 1 && count > 1 && (
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            swap(idx, idx + 1);
+                                        }}
+                                    >
+                                        <span className="glyphicon glyphicon-arrow-down"/>
+                                    </button>
+                                )}
+                                {idx !== 0 && count > 1 && (
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            swap(idx, idx - 1);
+                                        }}
+                                    >
+                                        <span className="glyphicon glyphicon-arrow-up"/>
+                                    </button>
+                                )}
+                                {(schema.minItems ? count > schema.minItems : true) && (
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            remove(idx);
+                                        }}
+                                    >
+                                        <span className="glyphicon glyphicon-trash"/>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                    <div className="panel-body">
+                        {renderField(
+                            {...schema.items, showLabel: false},
+                            idx.toString(),
+                            readOnly,
+                            theme,
+                            prefix,
+                            context
                         )}
                     </div>
-                    {renderField(
-                        {...schema.items, showLabel: false},
-                        idx.toString(),
-                        readOnly,
-                        theme,
-                        prefix,
-                        context
-                    )}
-                    <hr/>
                 </div>
-            );
+            )
         });
     } else {
         return null;
