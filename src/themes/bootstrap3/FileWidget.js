@@ -32,6 +32,13 @@ class RenderInput extends React.Component {
             "form-group",
             {"has-error": this.props.meta.touched && this.props.meta.error}
         ]);
+
+        if (this.props.schema.readOnly && !this.props.input.value) {
+            return "";
+        } else if (this.props.readOnly && !this.props.input.value) {
+            return "";
+        }
+
         return (
             <div className={className}>
                 <label className="control-label" htmlFor={this.props.id}>
@@ -72,6 +79,7 @@ const FileWidget = props => {
             type={props.type}
             readOnly={props.readOnly}
             defaultValue={props.defaultValue}
+            schema={props.schema}
         />
     );
 };

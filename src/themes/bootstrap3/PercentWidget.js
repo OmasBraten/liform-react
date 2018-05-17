@@ -19,6 +19,12 @@ class RenderInput extends React.Component {
             {"has-error": this.props.meta.touched && this.props.meta.error}
         ]);
 
+        if (this.props.schema.readOnly && !this.props.input.value) {
+            return "";
+        } else if (this.props.readOnly && !this.props.input.value) {
+            return "";
+        }
+
         return (
             <div className={className}>
                 <label className="control-label" htmlFor={"this.props-" + this.props.name}>
@@ -62,6 +68,7 @@ const Widget = props => {
             description={props.schema.description}
             readOnly={props.readOnly}
             defaultValue={props.schema.default}
+            schema={props.schema}
         />
     );
 };

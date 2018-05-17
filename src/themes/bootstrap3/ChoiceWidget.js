@@ -36,6 +36,12 @@ class RenderSelect extends React.Component {
         if (options.length === 1 && optionNames[0] === this.props.schema.default)
             return ('');
 
+        if (this.props.schema.readOnly && !this.props.input.value) {
+            return "";
+        } else if (this.props.readOnly && !this.props.input.value) {
+            return "";
+        }
+
         return (
             <div className={className}>
                 <label className="control-label" htmlFor={this.props.id}>

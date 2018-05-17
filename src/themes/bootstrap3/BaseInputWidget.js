@@ -23,6 +23,8 @@ class RenderInput extends React.Component {
 
         if (this.props.schema.readOnly && !this.props.input.value) {
             return "";
+        } else if (this.props.readOnly && !this.props.input.value) {
+            return "";
         }
 
         return (
