@@ -21,6 +21,10 @@ class RenderInput extends React.Component {
             color: this.props.type === 'color' ? this.props.input.value : ""
         };
 
+        if (this.props.schema.readOnly && !this.props.input.value) {
+            return "";
+        }
+
         return (
             <div className={className}>
                 <label className="control-label" htmlFor={this.props.id}>
@@ -59,6 +63,7 @@ const BaseInputWidget = props => {
             type={props.type}
             normalize={props.normalizer}
             readOnly={props.readOnly}
+            schema={props.schema}
             defaultValue={props.schema.default}
         />
     );
