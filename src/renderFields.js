@@ -24,15 +24,17 @@ const renderFields = (schema, theme, readOnly, prefix = null, context = {}) => {
     return props.map(item => {
         const name = item.prop;
         const field = schema.properties[name];
-        return renderField(
-            field,
-            name,
-            readOnly,
-            theme,
-            prefix,
-            context,
-            isRequired(schema, name)
-        );
+        if (!field.hidden) {
+            return renderField(
+                field,
+                name,
+                readOnly,
+                theme,
+                prefix,
+                context,
+                isRequired(schema, name)
+            );
+        }
     });
 };
 

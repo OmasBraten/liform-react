@@ -29,9 +29,11 @@ class RenderInput extends React.Component {
 
         return (
             <div className={className}>
-                <label className="control-label" htmlFor={this.props.id}>
-                    {this.props.label}
-                </label>
+                {this.props.label && (
+                    <label className="control-label" htmlFor={this.props.id}>
+                        {this.props.label}
+                    </label>
+                )}
                 {this.props.readOnly && (<p className="form-control-static" style={style}>{this.props.input.value}</p>)}
                 {!this.props.readOnly && (
                     <input {...this.props.input}

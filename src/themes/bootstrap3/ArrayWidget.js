@@ -15,14 +15,14 @@ const renderArrayFields = (count,
                            context,
                            swap) => {
     const prefix = fieldName + ".";
-
     if (count) {
         return _times(count, idx => {
             return (
                 <div className="panel panel-default" key={idx}>
-                    {!readOnly && (
-                        <div className="panel-heading">
-                            <div className="btn-group">
+                    <div className="panel-heading clearfix">
+                        <h4 className="panel-title pull-left">{schema.title ? schema.title : fieldName}-{idx}</h4>
+                        {!readOnly && (
+                            <div className="btn-group btn-group-sm pull-right">
                                 {idx !== count - 1 && count > 1 && (
                                     <button
                                         className="btn btn-primary"
@@ -57,8 +57,8 @@ const renderArrayFields = (count,
                                     </button>
                                 )}
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                     <div className="panel-body">
                         {renderField(
                             {...schema.items, showLabel: false},
@@ -73,7 +73,7 @@ const renderArrayFields = (count,
             )
         });
     } else {
-        return null;
+        return "";
     }
 };
 
@@ -82,7 +82,6 @@ const renderInput = field => {
         "arrayType",
         {"has-error": field.meta.submitFailed && field.meta.error}
     ]);
-
     return (
         <div className={className}>
             <legend className="control-label">{field.label}</legend>

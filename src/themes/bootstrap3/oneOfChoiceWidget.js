@@ -36,30 +36,43 @@ class OneOfChoiceWidget extends Component {
 
         return (
             <div className={className}>
-                <label className="control-label" htmlFor={"field-" + field.fieldName}>
-                    {schema.title ? schema.title : field.fieldName}
-                </label>
-                {!field.readOnly && (
-                    <select
-                        className="form-control"
-                        onChange={this.selectItem.bind(this)}
-                        id={field.context.formName + "-field-" + field.fieldName}
-                        required={field.required}
-                        multiple={false}
-                        value={this.state.choice}
-                    >
-                        {_map(options, (item, idx) => {
-                            return (
-                                <option key={options.indexOf(item)} value={idx}>
-                                    {item.title || idx}
-                                </option>
-                            );
-                        })}
-                    </select>
-                )}
-                {field.readOnly && (
-                    <p className="form-control-static">{options[this.state.choice].title}</p>
-                )}
+
+                <div className={className}>
+                    {field.readOnly && (
+                        <React.Fragment>
+                            <label className="control-label" htmlFor={"field-" + field.fieldName}>
+                                Type
+                            </label>
+                            <p className="form-control-static">{options[this.state.choice].title}</p>
+                        </React.Fragment>
+                    )}
+
+                    {!field.readOnly && (
+                        <React.Fragment>
+                            {schema.showLabel && (
+                                <label className="control-label" htmlFor={"field-" + field.fieldName}>
+                                    {schema.title ? schema.title : field.fieldName}
+                                </label>
+                            )}
+                            <select
+                                className="form-control"
+                                onChange={this.selectItem.bind(this)}
+                                id={field.context.formName + "-field-" + field.fieldName}
+                                required={field.required}
+                                multiple={false}
+                                value={this.state.choice}
+                            >
+                                {_map(options, (item, idx) => {
+                                    return (
+                                        <option key={options.indexOf(item)} value={idx}>
+                                            {item.title || idx}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </React.Fragment>
+                    )}
+                </div>
                 <div>{this.renderOption()}</div>
                 {field.description && (
                     <span className="help-block">{field.description}</span>
@@ -75,6 +88,8 @@ class OneOfChoiceWidget extends Component {
         if (schema.properties && Object.keys(schema.properties).length === 1 && schema.properties[this.props.fieldName])
             return;
         //if (schema.properties && schema.properties.length > 0)
+        if (schema.type === 'object')
+            schema.showLabel = false;
         return renderField(
             schema,
             field.fieldName,
