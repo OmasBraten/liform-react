@@ -2,7 +2,7 @@ import React from "react";
 import deepmerge from "deepmerge";
 
 const guessWidget = (fieldSchema, theme) => {
-    if (fieldSchema.widget) {
+    if (fieldSchema.widget && theme[fieldSchema.widget]) {
         return fieldSchema.widget;
     } else if (fieldSchema.hasOwnProperty("enum")) {
         return "choice";
