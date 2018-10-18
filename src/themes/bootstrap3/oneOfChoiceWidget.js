@@ -38,7 +38,7 @@ class OneOfChoiceWidget extends Component {
             <div className={className}>
 
                 <div className={className}>
-                    {(schema.readOnly || field.readOnly) && (
+                    {(field.disableSelect || field.readOnly) && (
                         <React.Fragment>
                             <label className="control-label" htmlFor={"field-" + field.fieldName}>
                                 Type
@@ -47,7 +47,7 @@ class OneOfChoiceWidget extends Component {
                         </React.Fragment>
                     )}
 
-                    {!schema.readOnly && !field.readOnly && (
+                    {!field.disableSelect && !field.readOnly && (
                         <React.Fragment>
                             {schema.showLabel && (
                                 <label className="control-label" htmlFor={"field-" + field.fieldName}>
