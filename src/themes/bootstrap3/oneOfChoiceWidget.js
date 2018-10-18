@@ -33,12 +33,12 @@ class OneOfChoiceWidget extends Component {
         const className = classNames(["form-group"]);
         const schema = field.schema;
         const options = schema.oneOf;
-
+		
         return (
             <div className={className}>
 
                 <div className={className}>
-                    {(field.disableSelect || field.readOnly) && (
+                    {(schema.disableSelect || field.readOnly) && (
                         <React.Fragment>
                             <label className="control-label" htmlFor={"field-" + field.fieldName}>
                                 Type
@@ -47,7 +47,7 @@ class OneOfChoiceWidget extends Component {
                         </React.Fragment>
                     )}
 
-                    {!field.disableSelect && !field.readOnly && (
+                    {!schema.disableSelect && !field.readOnly && (
                         <React.Fragment>
                             {schema.showLabel && (
                                 <label className="control-label" htmlFor={"field-" + field.fieldName}>
